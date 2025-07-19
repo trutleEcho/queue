@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8081"
+const API_URL = "https://dr-tanvisphysiocare-be.onrender.com"
 
 if (!API_URL) {
     console.warn("⚠️ Missing NEXT_PUBLIC_API_URL. API calls may fail.");
