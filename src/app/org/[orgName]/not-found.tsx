@@ -3,7 +3,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
 
-export default function OrgNotFound({params,}: { params: Promise<{ dashboard: string }> }){
+export default function OrgNotFound(){
     return(
         <div className="flex items-center justify-center p-4">
             <Card className="w-full max-w-md text-center">

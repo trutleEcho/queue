@@ -9,6 +9,7 @@ import {createOrganizationLocation} from "@/app/org/[orgName]/server";
 import {toast} from "sonner";
 import {motion} from "framer-motion";
 import Loading from "@/components/ui/loading";
+import {FetchError} from "@/lib/api/fetchData";
 
 type FormData = {
     organizationId: string;
@@ -71,11 +72,13 @@ export default function AddLocationBlock({org, onSuccessAction,}: {
                 toast.error("Error creating location!");
             }
             setLoading(false);
-        } catch (error: any) {
-            toast.error("Error creating location!", {
-                description: error.message,
-            });
+        } catch (error) {
             setLoading(false);
+            if (error instanceof FetchError) {
+                toast.error(error.message);
+            } else {
+                toast.error("Unexpected error occurred.");
+            }
         }
     };
 

@@ -10,6 +10,7 @@ import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {createLocationHost} from "@/app/org/[orgName]/server";
 import {Location} from "@/lib/api/models/entity/location";
+import {FetchError} from "@/lib/api/fetchData";
 
 type FormData = {
     name: string;
@@ -71,11 +72,13 @@ export default function AddHostBlock({org, location, onSuccessAction,}: {
                 toast.error("Error creating host!");
             }
             setLoading(false);
-        } catch (error: any) {
-            toast.error("Error creating host!", {
-                description: error.message,
-            });
+        } catch (error) {
             setLoading(false);
+            if (error instanceof FetchError) {
+                toast.error(error.message);
+            } else {
+                toast.error("Unexpected error occurred.");
+            }
         }
     };
 

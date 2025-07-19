@@ -105,15 +105,15 @@ class ConversionUtil {
      * @param time - Time in 12-hour format (hh:mm AM/PM)
      * @returns Time in 24-hour format
      */
-    convertTo24Hour = (time: string): string => {
-        const [timeStr, period] = time.split(' ');
-        let [hours, minutes] = timeStr.split(':').map(Number);
-
-        if (period === 'PM' && hours !== 12) hours += 12;
-        if (period === 'AM' && hours === 12) hours = 0;
-
-        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-    };
+    // convertTo24Hour = (time: string): string => {
+    //     const [timeStr, period] = time.split(' ');
+    //     const [hours, minutes] = timeStr.split(':').map(Number);
+    //
+    //     if (period === 'PM' && hours !== 12) hours += 12;
+    //     if (period === 'AM' && hours === 12) hours = 0;
+    //
+    //     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    // };
 
     /**
      * Converts minutes to hours and minutes

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import pkg from '../../../package.json';
 
 export default function OrgDashboardFooter() {
     return (
@@ -14,6 +15,7 @@ export default function OrgDashboardFooter() {
                         <span className="text-muted-foreground">Terms</span>
                         <span  className="text-muted-foreground">Support</span>
                     </div>
+                    <span className="text-muted-foreground text-sm">Version {pkg.version}</span>
                     <span  className="text-muted-foreground text-sm">@ 2025 Corner Softwares. All rights reserved</span>
                 </div>
             </section>

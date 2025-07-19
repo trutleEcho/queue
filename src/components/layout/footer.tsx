@@ -1,5 +1,6 @@
 import Image from "next/image";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
+import pkg from "../../../package.json";
 
 export default function Footer(){
     return(
@@ -15,6 +16,7 @@ export default function Footer(){
                            className="text-muted-foreground hover:text-foreground transition-colors">Terms</a>
                         <a href="#"
                            className="text-muted-foreground hover:text-foreground transition-colors">Support</a>
+                        <span className="text-muted-foreground text-sm">v{pkg.version}</span>
                     </div>
                     <div className="flex flex-col items-center gap-2 text-center bg-muted/50 rounded-lg p-6 px-12">
                         <span className="text-xs">Developed & maintained by</span>
