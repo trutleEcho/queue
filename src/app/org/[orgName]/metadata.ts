@@ -3,7 +3,7 @@ import { getOrganization } from "./server"
 import { Metadata } from "next"
 
 export async function generateMetadata({ params }: { params: { dashboard: string } }): Promise<Metadata> {
-    const org = await getOrganization(params.dashboard)
+    const org = await getOrganization(params.dashboard).then((res) => res.data)
 
     return {
         title: `${org.name} | Queue`,
