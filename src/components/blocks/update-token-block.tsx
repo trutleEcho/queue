@@ -10,7 +10,7 @@ import {Host} from "@/lib/api/models/entity/host";
 import {toast} from "sonner";
 import {FetchError} from "@/lib/api/fetchData";
 import {UpdateHostStatusRequest} from "@/lib/api/models/request/host/update-host-status-request";
-import {updateLocationHostStatus} from "@/app/org/[orgName]/server";
+import {updateLocationHostStatus} from "@/app/org/[orgId]/server";
 
 export default function UpdateTokenBlock({orgId, host}: { orgId: string, host: Host }) {
 

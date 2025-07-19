@@ -1,4 +1,8 @@
-const API_URL = "https://dr-tanvisphysiocare-be.onrender.com"
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+console.log("Available env:", process.env);
+console.log("DEBUG ENV:", {
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+});
 
 if (!API_URL) {
     console.warn("⚠️ Missing NEXT_PUBLIC_API_URL. API calls may fail.");

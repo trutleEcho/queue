@@ -22,11 +22,11 @@ import {DeleteTokenRequest} from "@/lib/api/models/request/token/delete-token-re
  * Fetch organization by name. Redirects to Not Found page if not found.
  */
 export async function getOrganization(
-    name: string
+    orgId: string
 ): Promise<GetOrganizationResponse> {
     try {
         const res = await fetchData<GetOrganizationResponse>(
-            `${ApiEndpoints.organization.fetch}?name=${encodeURIComponent(name)}`,
+            `${ApiEndpoints.organization.fetch}?orgId=${encodeURIComponent(orgId)}`,
             {method: "GET"}
         );
 

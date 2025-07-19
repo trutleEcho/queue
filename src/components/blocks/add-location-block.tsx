@@ -5,7 +5,7 @@ import {Button} from "@/components/ui/button";
 import {useState} from "react";
 import {Organization} from "@/lib/api/models/entity/organization";
 import {conversionUtil} from "@/lib/conversion-util";
-import {createOrganizationLocation} from "@/app/org/[orgName]/server";
+import {createOrganizationLocation} from "@/app/org/[orgId]/server";
 import {toast} from "sonner";
 import {motion} from "framer-motion";
 import Loading from "@/components/ui/loading";

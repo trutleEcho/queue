@@ -6,7 +6,7 @@ import {Location} from "@/lib/api/models/entity/location";
 import {Host} from "@/lib/api/models/entity/host";
 import {useEffect, useState} from "react";
 import {toast} from "sonner";
-import {getLocationHosts} from "@/app/org/[orgName]/server";
+import {getLocationHosts} from "@/app/org/[orgId]/server";
 import {FetchError} from "@/lib/api/fetchData";
 import Loading from "@/components/ui/loading";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";

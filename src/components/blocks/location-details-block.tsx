@@ -10,7 +10,7 @@ import {toast} from "sonner";
 import {
     updateOrganizationLocation,
     updateOrganizationLocationStatus
-} from "@/app/org/[orgName]/server";
+} from "@/app/org/[orgId]/server";
 import {FetchError} from "@/lib/api/fetchData";
 import {UpdateLocationRequest} from "@/lib/api/models/request/location/update-location-request";
 import Loading from "@/components/ui/loading";
