@@ -1,14 +1,14 @@
 'use client';
 
+import {useState} from "react";
 import {motion} from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
+import {Home, Menu, X} from "lucide-react";
 import {ThemeToggle} from "@/components/custom/theme-toggle";
 import {Button} from "@/components/ui/button";
-import {Menu, Search, X} from "lucide-react";
-import {useState} from "react";
-import Link from "next/link";
 
-export default function Navbar() {
+export default function LandingNavbar(){
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
@@ -26,17 +26,9 @@ export default function Navbar() {
 
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center space-x-6">
-                        <Link href="/"
+                        <Link href="/home"
                               className="text-muted-foreground hover:text-foreground transition-colors text-sm flex items-center gap-2">
-                            <Search className="w-4 h-4"/>Search</Link>
-                        <a href="#features"
-                           className="text-muted-foreground hover:text-foreground transition-colors text-sm">Features</a>
-                        <a href="#pricing"
-                           className="text-muted-foreground hover:text-foreground transition-colors text-sm">Pricing</a>
-                        <a href="#about"
-                           className="text-muted-foreground hover:text-foreground transition-colors text-sm">About</a>
-                        <a href="#contact"
-                           className="text-muted-foreground hover:text-foreground transition-colors text-sm">Contact</a>
+                            <Home className="w-4 h-4"/>Home</Link>
                         <ThemeToggle/>
                     </div>
 
@@ -62,16 +54,8 @@ export default function Navbar() {
                             className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-lg border-b border-border p-4 md:hidden"
                         >
                             <div className="flex flex-col space-y-3">
-                                <Link href="/"
-                                      className="text-muted-foreground hover:text-foreground transition-colors">Search</Link>
-                                <a href="#features"
-                                   className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
-                                <a href="#pricing"
-                                   className="text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
-                                <a href="#about"
-                                   className="text-muted-foreground hover:text-foreground transition-colors">About</a>
-                                <a href="#contact"
-                                   className="text-muted-foreground hover:text-foreground transition-colors">Contact</a>
+                                <Link href="/home"
+                                      className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"> <Home className="w-4 h-4"/>Home</Link>
                             </div>
                         </motion.div>
                     )}

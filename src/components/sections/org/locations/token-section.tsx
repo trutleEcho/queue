@@ -12,8 +12,10 @@ import Loading from "@/components/ui/loading";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {ErrorBoundary} from "@/components/error-boundary";
 import UpdateTokenBlock from "@/components/blocks/update-token-block";
+import {Skeleton} from "@/components/ui/skeleton";
 
 export default function TokenSection({location}: { location: Location }) {
+
     const [loading, setLoading] = useState(false);
     const [host, setHost] = useState<Host>();
     const [selectedHostName, setSelectedHostName] = useState<string>(location.hosts[0]?.hostName ?? "");
@@ -60,7 +62,6 @@ export default function TokenSection({location}: { location: Location }) {
 
     return (
         <>
-            {loading && <Loading message="Loading hosts..."/>}
             <Card className="my-4 ">
                 <CardHeader className="space-y-0">
                     <div className="flex flex-col md:flex-row md:justify-between md:items-center">
@@ -86,10 +87,19 @@ export default function TokenSection({location}: { location: Location }) {
                 <CardContent>
                     <Separator className="mb-4"/>
 
-                    {host && (
-                        <ErrorBoundary>
-                            <UpdateTokenBlock orgId={location.organizationId} host={host}/>
-                        </ErrorBoundary>
+                    {loading ? (
+                        <div className="space-y-4">
+                            <Skeleton className="h-6 w-1/3"/>
+                            <Skeleton className="h-8 w-full"/>
+                            <Skeleton className="h-8 w-full"/>
+                            {loading && <Loading message="Loading hosts..."/>}
+                        </div>
+                    ) : (
+                        host && (
+                            <ErrorBoundary>
+                                <UpdateTokenBlock orgId={location.organizationId} host={host}/>
+                            </ErrorBoundary>
+                        )
                     )}
 
                 </CardContent>

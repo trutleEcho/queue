@@ -1,8 +1,4 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-console.log("Available env:", process.env);
-console.log("DEBUG ENV:", {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
-});
 
 if (!API_URL) {
     console.warn("⚠️ Missing NEXT_PUBLIC_API_URL. API calls may fail.");
@@ -10,7 +6,8 @@ if (!API_URL) {
 
 export const ApiEndpoints = {
     organization:{
-        fetch: `${API_URL}/core/organization`
+        fetch: `${API_URL}/core/organization`,
+        fetchAll: `${API_URL}/core/organization/all`,
     },
     location: {
         fetch: `${API_URL}/queue/locations`,

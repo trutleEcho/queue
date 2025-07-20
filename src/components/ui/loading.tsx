@@ -6,9 +6,9 @@ import React from "react";
  */
 export default function Loading({ message = "Loading..." }: { message?: string }) {
     return (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-50 text-center">
+        <div className="flex flex-col items-center justify-center text-center w-full h-full">
             <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-600 border-solid" />
-            <p className="text-white text-base mt-4">{message}</p>
+            <p className="text-gray-700 dark:text-white text-base mt-4">{message}</p>
         </div>
     );
 }
