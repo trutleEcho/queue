@@ -13,6 +13,7 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {ErrorBoundary} from "@/components/error-boundary";
 import UpdateTokenBlock from "@/components/blocks/update-token-block";
 import {Skeleton} from "@/components/ui/skeleton";
+import HostTokensBlock from "@/components/blocks/host-tokens-block";
 
 export default function TokenSection({location}: { location: Location }) {
 
@@ -84,7 +85,7 @@ export default function TokenSection({location}: { location: Location }) {
                         </Select>
                     </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="px-3">
                     <Separator className="mb-4"/>
 
                     {loading ? (
@@ -100,6 +101,13 @@ export default function TokenSection({location}: { location: Location }) {
                                 <UpdateTokenBlock orgId={location.organizationId} host={host}/>
                             </ErrorBoundary>
                         )
+                    )}
+
+                    {/* Token details */}
+                    {location && host && (
+                        <ErrorBoundary>
+                            <HostTokensBlock orgId={location.organizationId} host={host} locationId={location._id}/>
+                        </ErrorBoundary>
                     )}
 
                 </CardContent>

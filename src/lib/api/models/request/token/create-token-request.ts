@@ -7,6 +7,6 @@ export interface CreateTokenRequest {
     name: string
     phoneNumber: string
     email?: string
-    token?: string
+    date?: number
     meta: Meta
 }

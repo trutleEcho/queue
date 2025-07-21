@@ -84,7 +84,7 @@ export default function OrganizationsCombobox() {
                                             setValue(currentValue)
                                             setOpen(false)
                                             const selected = organizations.find(o => o.organizationName === currentValue)
-                                            if (selected) router.push(`/org/${selected.organizationId}`)
+                                            if (selected) router.push(`/cus/${selected.organizationId}`)
                                         }}
                                     >
                                         <CheckIcon

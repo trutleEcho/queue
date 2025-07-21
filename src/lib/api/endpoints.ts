@@ -24,6 +24,7 @@ export const ApiEndpoints = {
     },
     token: {
         fetch: `${API_URL}/queue/tokens`,
+        validate: `${API_URL}/queue/tokens/validate`,
         create: `${API_URL}/queue/tokens/create`,
         update: `${API_URL}/queue/tokens/update`,
         delete: `${API_URL}/queue/tokens/delete`,

@@ -96,7 +96,7 @@ export default function LocationSection({org}: { org: Organization }) {
                         </Select>
                     </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="px-2">
                     <Separator className="mb-4"/>
 
                     {/* Token details */}

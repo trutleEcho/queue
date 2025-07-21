@@ -17,6 +17,8 @@ import {GetHostTokens} from "@/lib/api/models/response/get-host-tokens";
 import {CreateTokenRequest} from "@/lib/api/models/request/token/create-token-request";
 import {UpdateTokenRequest} from "@/lib/api/models/request/token/update-token-request";
 import {DeleteTokenRequest} from "@/lib/api/models/request/token/delete-token-request";
+import {ValidateTokenResponse} from "@/lib/api/models/response/validate-token-response";
+import {conversionUtil} from "@/lib/conversion-util";
 
 /**
  * Fetch organization by name. Redirects to Not Found page if not found.
@@ -186,9 +188,17 @@ export async function getHostTokens(
     }
 }
 
-export async function createHostToken(request: CreateTokenRequest): Promise<BooleanResponse> {
+export async function validateToken(orgId: string, phoneNumber: string, date: number = conversionUtil.getStartOfTodayInMillis()): Promise<ValidateTokenResponse> {
     try {
-        return await fetchData<BooleanResponse>(`${ApiEndpoints.token.create}`, {
+        return await fetchData<ValidateTokenResponse>(`${ApiEndpoints.token.validate}?orgId=${encodeURIComponent(orgId)}&phoneNumber=${encodeURIComponent(phoneNumber)}&date=${encodeURIComponent(date)}`, {method: "GET"});
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function createHostToken(request: CreateTokenRequest): Promise<ValidateTokenResponse> {
+    try {
+        return await fetchData<ValidateTokenResponse>(`${ApiEndpoints.token.create}`, {
             method: "POST",
             body: JSON.stringify(request)
         });
