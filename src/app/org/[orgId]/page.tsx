@@ -1,12 +1,12 @@
-// app/org/[orgName]/page.tsx
+// app/org/[orgId]/page.tsx
 import {getOrganization} from './server'
 import HydrateOrganization from './hydrate-organization'
 import {ErrorBoundary} from "@/components/error-boundary";
 import LocationSection from "@/components/sections/org/locations/location-section";
 
-export default async function OrgPage({params,}: { params: Promise<{ orgName: string }> }) {
-    const {orgName} = await params;
-    const org = await getOrganization(orgName).then((res) => res.data)
+export default async function OrgPage({params,}: { params: Promise<{ orgId: string }> }) {
+    const {orgId} = await params;
+    const org = await getOrganization(orgId).then((res) => res.data)
 
     return (
         <>

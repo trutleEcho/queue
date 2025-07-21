@@ -51,13 +51,17 @@ class ConversionUtil {
      * @param format - Optional format (12 or 24 hour)
      * @returns Formatted time string
      */
-    formatTime = (timestamp: number, format: '12h' | '24h' = '12h'): string => {
-        const date = new Date(timestamp);
-        if (format === '24h') {
-            return date.toLocaleTimeString('en-IN', {hour: '2-digit', minute: '2-digit', hour12: false});
-        }
-        return date.toLocaleTimeString('en-IN', {hour: '2-digit', minute: '2-digit', hour12: true});
+    formatTime = (ms: number, format: '12h' | '24h' = '12h'): string => {
+        const istDate = new Date(ms + 5.5 * 60 * 60 * 1000);
+
+        return istDate.toLocaleTimeString('en-IN', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: format === '12h',
+            timeZone: 'UTC', // already shifted, so use UTC
+        });
     };
+
 
     /**
      * Formats currency amount to INR
@@ -133,40 +137,33 @@ class ConversionUtil {
         return Number((rupees * 100).toFixed(0));
     }
 
-
     msToTimeString = (ms: number): string => {
-        const utcMidnight = new Date();
-        utcMidnight.setUTCHours(0, 0, 0, 0); // midnight UTC today
+        // Add 5.5 hours to get actual IST time from stored UTC ms
+        const istDate = new Date(ms + 5.5 * 60 * 60 * 1000);
 
-        const utcDate = new Date(utcMidnight.getTime() + ms);
-
-        // Convert to IST by adding 5 hours 30 minutes
-        const istOffsetMs = 5.5 * 60 * 60 * 1000;
-        const istDate = new Date(utcDate.getTime() + istOffsetMs);
-
-        const hours = istDate.getHours().toString().padStart(2, '0');
-        const minutes = istDate.getMinutes().toString().padStart(2, '0');
+        const hours = istDate.getUTCHours().toString().padStart(2, '0');
+        const minutes = istDate.getUTCMinutes().toString().padStart(2, '0');
 
         return `${hours}:${minutes}`;
     };
-
 
     /**
      * Converts IST time string (HH:mm) to milliseconds since UTC midnight.
      */
     timeStringToMilliseconds = (timeStr: string): number => {
-        const [hours, minutes] = timeStr.split(':').map(Number);
+        const [hours, minutes] = timeStr.split(":").map(Number);
 
-        // Create date at IST midnight
-        const istDate = new Date();
-        istDate.setHours(0, 0, 0, 0); // IST midnight today
-        istDate.setHours(hours, minutes, 0, 0); // set given IST time
+        // Create IST date manually: 1970-01-01T00:00:00+05:30
+        const istBase = Date.UTC(1970, 0, 1, hours - 5, minutes - 30); // shift back to UTC
 
-        // Convert IST to UTC
-        const utcMs = istDate.getTime() - (5.5 * 60 * 60 * 1000); // remove IST offset
-
-        return utcMs % (24 * 60 * 60 * 1000); // milliseconds since UTC midnight
+        return istBase;
     };
+
+    getStartOfTodayInMillis(): number {
+        const now = new Date();
+        const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        return startOfToday.getTime();
+    }
 }
 
 export const conversionUtil = new ConversionUtil();

@@ -1,4 +1,4 @@
-const API_URL = "https://dr-tanvisphysiocare-be.onrender.com"
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 if (!API_URL) {
     console.warn("⚠️ Missing NEXT_PUBLIC_API_URL. API calls may fail.");
@@ -6,7 +6,8 @@ if (!API_URL) {
 
 export const ApiEndpoints = {
     organization:{
-        fetch: `${API_URL}/core/organization`
+        fetch: `${API_URL}/core/organization`,
+        fetchAll: `${API_URL}/core/organization/all`,
     },
     location: {
         fetch: `${API_URL}/queue/locations`,
@@ -23,6 +24,7 @@ export const ApiEndpoints = {
     },
     token: {
         fetch: `${API_URL}/queue/tokens`,
+        validate: `${API_URL}/queue/tokens/validate`,
         create: `${API_URL}/queue/tokens/create`,
         update: `${API_URL}/queue/tokens/update`,
         delete: `${API_URL}/queue/tokens/delete`,

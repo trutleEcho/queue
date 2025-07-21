@@ -7,6 +7,7 @@ export interface Token {
     name: string;
     phoneNumber: string;
     email?: string;
-    token?: string;
+    token?: number;
+    date?: number;
     meta: Meta;
 }

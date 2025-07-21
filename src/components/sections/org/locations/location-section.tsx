@@ -9,7 +9,7 @@ import {Button} from "@/components/ui/button";
 import TokenSection from "@/components/sections/org/locations/token-section";
 import {ErrorBoundary} from "@/components/error-boundary";
 import {Organization} from "@/lib/api/models/entity/organization";
-import {getOrganizationLocations} from "@/app/org/[orgName]/server";
+import {getOrganizationLocations} from "@/app/org/[orgId]/server";
 import {FetchError} from "@/lib/api/fetchData";
 import {toast} from "sonner";
 import {LucideRefreshCcw} from "lucide-react";
@@ -96,7 +96,7 @@ export default function LocationSection({org}: { org: Organization }) {
                         </Select>
                     </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="px-2">
                     <Separator className="mb-4"/>
 
                     {/* Token details */}

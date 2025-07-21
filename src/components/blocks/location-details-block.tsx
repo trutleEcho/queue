@@ -10,11 +10,14 @@ import {toast} from "sonner";
 import {
     updateOrganizationLocation,
     updateOrganizationLocationStatus
-} from "@/app/org/[orgName]/server";
+} from "@/app/org/[orgId]/server";
 import {FetchError} from "@/lib/api/fetchData";
 import {UpdateLocationRequest} from "@/lib/api/models/request/location/update-location-request";
 import Loading from "@/components/ui/loading";
 import {UpdateLocationStatusRequest} from "@/lib/api/models/request/location/update-location-status-request";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 type FormDataType = {
     address?: string;
@@ -30,6 +33,7 @@ export default function LocationDetailsBlock({location}: { location: Location })
     });
     const [open, setOpen] = useState(location.open);
     const [loading, setLoading] = useState(false);
+    const [collapsed, setCollapsed] = useState(false);
 
     const updateLocationStatus = async () => {
         if (!location) {
@@ -111,109 +115,131 @@ export default function LocationDetailsBlock({location}: { location: Location })
     return (
         <>
             {loading && (<Loading message="Updating location details..."/>)}
-            <Card className="w-full mx-auto mb-6">
-                <CardHeader className="flex flex-row justify-between items-center">
-                    <div>
-                        <CardTitle className="text-lg font-bold md:text-xl">
-                            Location Details
-                        </CardTitle>
-                        <CardDescription>
-                            View and update your location details
-                        </CardDescription>
-                    </div>
-                    <Button onClick={updateLocationDetails} className="text-xs font-light p-2 md:p-3 md:text-sm">
-                        Update Location
-                    </Button>
-                </CardHeader>
-
-                <CardContent>
-                    <Separator className="mb-4"/>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-4">
+            <Collapsible open={!collapsed} onOpenChange={() => setCollapsed((prev) => !prev)}>
+                <Card className="w-full mx-auto mb-6">
+                    <CollapsibleTrigger asChild>
+                        <CardHeader className="flex flex-row justify-between items-center cursor-pointer select-none">
                             <div>
-                                <label className="text-sm text-muted-foreground">Location Name:</label>
-                                <p className="text-sm font-medium">{location?.name ?? "N/A"}</p>
+                                <CardTitle className="text-lg font-bold md:text-xl flex items-center gap-2">
+                                    Location Details
+                                </CardTitle>
+                                <CardDescription>
+                                    View and update your location details
+                                </CardDescription>
                             </div>
+                            <motion.span animate={{ rotate: collapsed ? 0 : 180 }} transition={{ duration: 0.3 }}>
+                                {collapsed ? <ChevronDown className="w-5 h-5" /> : <ChevronUp className="w-5 h-5" />}
+                            </motion.span>
+                        </CardHeader>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent asChild>
+                        <AnimatePresence initial={false}>
+                            {!collapsed && (
+                                <motion.div
+                                    key="content"
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: "auto" }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                                >
+                                    <CardContent>
+                                        <Separator className="mb-4"/>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <label className="text-sm text-muted-foreground">Location Name:</label>
+                                                    <p className="text-sm font-medium">{location?.name ?? "N/A"}</p>
+                                                </div>
 
-                            <div>
-                                <label className="text-sm text-muted-foreground">Address</label>
-                                <Input
-                                    value={formData?.address ?? ""}
-                                    placeholder="Address"
-                                    onChange={(e) =>
-                                        setFormData((prev) => ({
-                                            ...prev,
-                                            address: e.target.value,
-                                        }))
-                                    }
-                                />
-                            </div>
+                                                <div>
+                                                    <label className="text-sm text-muted-foreground">Address</label>
+                                                    <Input
+                                                        value={formData?.address ?? ""}
+                                                        placeholder="Address"
+                                                        onChange={(e) =>
+                                                            setFormData((prev) => ({
+                                                                ...prev,
+                                                                address: e.target.value,
+                                                            }))
+                                                        }
+                                                    />
+                                                </div>
 
-                            <div>
-                                <label className="text-sm text-muted-foreground">Phone</label>
-                                <Input
-                                    value={formData?.phoneNumber ?? ""}
-                                    placeholder="Phone Number"
-                                    maxLength={10}
-                                    onChange={(e) => {
-                                        const clean = e.target.value.replace(/[^0-9]/g, '');
-                                        setFormData((prev) => ({...prev, phoneNumber: clean}));
-                                    }}
-                                />
-                            </div>
-                        </div>
+                                                <div>
+                                                    <label className="text-sm text-muted-foreground">Phone</label>
+                                                    <Input
+                                                        value={formData?.phoneNumber ?? ""}
+                                                        placeholder="Phone Number"
+                                                        maxLength={10}
+                                                        onChange={(e) => {
+                                                            const clean = e.target.value.replace(/[^0-9]/g, '');
+                                                            setFormData((prev) => ({...prev, phoneNumber: clean}));
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
 
-                        <div className="space-y-6 flex flex-col justify-between">
-                            <div className="flex flex-row gap-6">
-                                <div className="flex flex-col space-y-1">
-                                    <label className="text-sm text-muted-foreground">Open Hours:</label>
-                                    <Input
-                                        type="time"
-                                        className="text-sm"
-                                        value={conversionUtil.msToTimeString(formData.openTime ?? 28800000)} // 8 AM IST default
-                                        onChange={(e) =>
-                                            setFormData((prev) => ({
-                                                ...prev,
-                                                openTime: conversionUtil.timeStringToMilliseconds(e.target.value),
-                                            }))
-                                        }
-                                    />
-                                </div>
-                                <div className="flex flex-col space-y-1">
-                                    <label className="text-sm text-muted-foreground">Close Hours:</label>
-                                    <Input
-                                        type="time"
-                                        className="text-sm"
-                                        value={conversionUtil.msToTimeString(formData.closeTime ?? 61200000)}
-                                        onChange={(e) =>
-                                            setFormData((prev) => ({
-                                                ...prev,
-                                                closeTime: conversionUtil.timeStringToMilliseconds(e.target.value)
-                                            }))
-                                        }
-                                    />
-                                </div>
-                            </div>
+                                            <div className="space-y-6 flex flex-col justify-between">
+                                                <div className="flex flex-row gap-6">
+                                                    <div className="flex flex-col space-y-1">
+                                                        <label className="text-sm text-muted-foreground">Open Hours:</label>
+                                                        <Input
+                                                            type="time"
+                                                            className="text-sm"
+                                                            value={conversionUtil.msToTimeString(formData.openTime ?? 28800000)} // 8 AM IST default
+                                                            onChange={(e) =>
+                                                                setFormData((prev) => ({
+                                                                    ...prev,
+                                                                    openTime: conversionUtil.timeStringToMilliseconds(e.target.value),
+                                                                }))
+                                                            }
+                                                        />
+                                                    </div>
+                                                    <div className="flex flex-col space-y-1">
+                                                        <label className="text-sm text-muted-foreground">Close Hours:</label>
+                                                        <Input
+                                                            type="time"
+                                                            className="text-sm"
+                                                            value={conversionUtil.msToTimeString(formData.closeTime ?? 61200000)}
+                                                            onChange={(e) =>
+                                                                setFormData((prev) => ({
+                                                                    ...prev,
+                                                                    closeTime: conversionUtil.timeStringToMilliseconds(e.target.value)
+                                                                }))
+                                                            }
+                                                        />
+                                                    </div>
+                                                </div>
 
-                            <div>
-                                <label className="text-sm text-muted-foreground mb-1 block">Location Open</label>
-                                <div className="flex items-center space-x-2">
-                                    <Switch
-                                        id="open"
-                                        checked={open}
-                                        onCheckedChange={() => {
-                                            setOpen((prev) => !prev);
-                                        }}
-                                    />
-                                    <span className="text-sm text-muted-foreground">
-                                        {open ? "Open" : "Closed"}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
+                                                <div>
+                                                    <label className="text-sm text-muted-foreground mb-1 block">Location Open</label>
+                                                    <div className="flex items-center space-x-2">
+                                                        <Switch
+                                                            id="open"
+                                                            checked={open}
+                                                            onCheckedChange={() => {
+                                                                setOpen((prev) => !prev);
+                                                            }}
+                                                        />
+                                                        <span className="text-sm text-muted-foreground">
+                                                            {open ? "Open" : "Closed"}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+
+                                                <Button onClick={updateLocationDetails} className="text-xs font-light p-2 md:p-3 md:text-sm">
+                                                    Update Location
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </CollapsibleContent>
+                </Card>
+            </Collapsible>
         </>
     );
 }

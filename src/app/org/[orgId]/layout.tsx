@@ -2,14 +2,14 @@
 import OrgDashboardNavbar from "@/components/layout/org-dashboard-navbar";
 import OrgDashboardFooter from "@/components/layout/org-dashboard-footer";
 
-export default async function orgLayout({children, params}: { children: React.ReactNode; params: Promise<{ orgName: string }>
+export default async function orgLayout({children, params}: { children: React.ReactNode; params: Promise<{ orgId: string }>
 }) {
-    const {orgName} = await params;
+    const {orgId} = await params;
 
     return(
         <>
             <div className="flex flex-col min-h-screen">
-                <OrgDashboardNavbar orgName={orgName}/>
+                <OrgDashboardNavbar orgId={orgId}/>
                 <div className="flex-1">{children}</div>
                 <OrgDashboardFooter/>
             </div>

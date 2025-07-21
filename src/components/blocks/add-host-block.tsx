@@ -8,7 +8,7 @@ import Loading from "@/components/ui/loading";
 import {motion} from "framer-motion";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-import {createLocationHost} from "@/app/org/[orgName]/server";
+import {createLocationHost} from "@/app/org/[orgId]/server";
 import {Location} from "@/lib/api/models/entity/location";
 import {FetchError} from "@/lib/api/fetchData";
 

@@ -1,10 +1,10 @@
 import OrgDashboardDetailsSection from "@/components/sections/org/dashboard/org-dashboard-details-section";
 import {notFound} from "next/navigation";
-import {getOrganization} from "@/app/org/[orgName]/server";
+import {getOrganization} from "@/app/org/[orgId]/server";
 
-export default async function Dashboard({params,}: { params: Promise<{ orgName: string }> }){
-    const {orgName} = await params
-    const org = await getOrganization(orgName).then((res) => res.data)
+export default async function Dashboard({params,}: { params: Promise<{ orgId: string }> }){
+    const {orgId} = await params
+    const org = await getOrganization(orgId).then((res) => res.data)
 
     if(!org) return notFound()
 

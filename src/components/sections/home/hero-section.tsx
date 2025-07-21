@@ -1,3 +1,5 @@
+'use client';
+
 import {motion, useScroll, useTransform} from "framer-motion";
 import {ArrowRight, Zap} from "lucide-react";
 import {Button} from "@/components/ui/button";
